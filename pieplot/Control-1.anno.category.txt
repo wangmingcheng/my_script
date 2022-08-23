@@ -1,0 +1,6 @@
+lncRNA	601
+mRNA	5004
+miRNA	3
+multipleType	572
+others	288
+pseudogene	173

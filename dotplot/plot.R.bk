@@ -1,0 +1,31 @@
+library("ggplot2")
+library("dplyr")
+
+args <- commandArgs(trailingOnly = TRUE)
+df <- as.data.frame(read.table(args[1], header = TRUE, sep = "\t", quote = ""))
+
+df <- head(subset(df, FDR <= 1e-5), n = 20)
+df$TermID <- factor(df$TermID, levels=rev(df$TermID), ) # there are some terms with same TermName, so use TermID as x factor
+
+df$GeneRatio <- df$GeneInListInTerm/df$GeneInTerm
+
+#df <- arrange(df, richfactor)
+df$TermName1 <- apply(df, 1, function(x) { 
+    c = unlist(strsplit(x[2], split=''));  
+    if(length(c)<=40){ 
+        x[2] 
+    }else{  
+        paste(c( c[1:40], "..."), collapse = '') 
+    } 
+} )
+
+colors = strsplit("green,red", split=',')[[1]]
+p <- ggplot(df, aes(GeneRatio, TermID) )+ 
+        scale_colour_gradient(low=colors[1], high=colors[2]) +
+        geom_point(aes(size=GeneInListInTerm, color=-log10(Pvalue))) +
+        labs(x="GeneRatio", y="", title="Dotplot", color=paste("-log10(", "Pvalue", ")", sep=""), size="Gene number", family = "sans") +
+        scale_y_discrete(labels = rev(df$TermName)) +
+        theme_bw() +
+	theme(plot.title = element_text(hjust = 0.5)) 
+
+ggsave("dotplot.png", p)

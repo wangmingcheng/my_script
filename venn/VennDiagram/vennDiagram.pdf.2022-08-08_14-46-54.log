@@ -1,0 +1,15 @@
+INFO [2022-08-08 14:46:54] $x
+INFO [2022-08-08 14:46:54] vennlist
+INFO [2022-08-08 14:46:54] 
+INFO [2022-08-08 14:46:54] $filename
+INFO [2022-08-08 14:46:54] paste("VennDiagram", "vennDiagram.pdf", sep = "/")
+INFO [2022-08-08 14:46:54] 
+INFO [2022-08-08 14:46:54] $disable.logging
+INFO [2022-08-08 14:46:54] [1] FALSE
+INFO [2022-08-08 14:46:54] 
+INFO [2022-08-08 14:46:54] $fill
+INFO [2022-08-08 14:46:54] brewer.pal(length(vennlist), "Pastel2")
+INFO [2022-08-08 14:46:54] 
+INFO [2022-08-08 14:46:54] $col
+INFO [2022-08-08 14:46:54] brewer.pal(length(vennlist), "Pastel2")
+INFO [2022-08-08 14:46:54] 
