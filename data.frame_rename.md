@@ -1,4 +1,4 @@
-```df <- data.frame(num = c(1, 2, 3), char = c("a", "b", "c"))
+```{r}df <- data.frame(num = c(1, 2, 3), char = c("a", "b", "c"))
 df
   num char
 1   1    a
@@ -23,4 +23,4 @@ df
 1   1       a
 2   2       b
 3   3       c
-``` {r}
+```
