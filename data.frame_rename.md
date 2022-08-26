@@ -5,7 +5,7 @@
 1   1    a
 2   2    b
 3   3    c
-> ames(df)[2] <- "letter"
+> names(df)[2] <- "letter"
 > df
   num letter
 1   1      a
