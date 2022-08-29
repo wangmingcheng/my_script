@@ -8,4 +8,4 @@
 [R for Data Science](https://r4ds.had.co.nz/index.html) R数据科学，学会并习惯基于tidyverse的R编程<br>
 
 开源的R语言学习书籍： https://bookdown.org/<br>
-[ggplot2: Elegant Graphics for Data Analysis]<br>
+[ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/)<br>
