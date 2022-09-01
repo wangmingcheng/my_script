@@ -9,3 +9,6 @@
 
 开源的R语言学习书籍： https://bookdown.org/<br>
 [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/)<br>
+
+## 值得学习的包
+furrr https://github.com/DavisVaughan/furrr<br>
