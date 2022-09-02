@@ -12,3 +12,4 @@
 
 ## 值得学习的包
 furrr https://github.com/DavisVaughan/furrr<br>
+R Interface to Python: https://rstudio.github.io/reticulate<br>
