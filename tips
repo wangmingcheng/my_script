@@ -1,0 +1,66 @@
+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
+git remote set-url origin  https://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@github.com/wangmingcheng/SingleCell.git
+
+
+source	macs3/bin/activate
+counts <- t(as.matrix(obj[["RNA"]]@counts))
+
+conda config --set auto_activate_base false
+ ps -ef | grep Window_Methylation_Level.pl | grep -v grep | awk '{print $2}'|xargs kill -9
+
+source /rainbow/software/anaconda3/bin/activate
+conda activate R_4.0
+
+STAR --genomeDir /Data2/nbCloud/public/nbcplatform/genome/index/star/10090/mm10_genecode_genome/Chr_Index/chrAll --readFilesIn /Data4/nbCloud/public/AllProject/@2022-04/project_62510c32626ee6bbb7a64ef3/task_6255c44bfd302f9978f97b30/MC38-D3-R.paired.R1.fq.gz /Data4/nbCloud/public/AllProject/@2022-04/project_62510c32626ee6bbb7a64ef3/task_6255c44bfd302f9978f97b30/MC38-D3-R.paired.R2.fq.gz --runThreadN 5 --readFilesCommand zcat --outFilterMultimapScoreRange 1 --outFilterMultimapNmax 10 --outFilterMismatchNmax 10 --alignIntronMax 500000 --alignMatesGapMax 1000000 --sjdbScore 2 --alignSJDBoverhangMin 3 --outFilterMatchNminOverLread 0.66 --outFilterScoreMinOverLread 0.66 --outSAMstrandField None --outSAMtype BAM Unsorted --outSAMunmapped Within --outFileNamePrefix /Data4/nbCloud/public/AllProject/@2022-04/project_62510c32626ee6bbb7a64ef3/task_6255c44bfd302f9978f97b2a/.tmp./.MC38-D3-R/MC38-D3-R.
+
+library(MASS)
+write.matrix(m,file="asdf.txt")
+
+https://libgen.gs/index.php
+
+base + labs(
+  col = "图例名" # 离散
+  fill = "图例名"  # 连续
+)
+print(paste("Job started at", Sys.time(), sep = " "))
+print(paste("Job ended at", Sys.time(), sep = " "))
+
+conda env remove -n 虚拟环境的名称
+
+pip install feather-format
+import feather 
+df = feather.read_dataframe("train.feather")
+
+FindMarkers(seuratObj, ident.1 = "Narrow3", group.by = 'sample', subset.ident = c("Smooth_muscle","T_Cells") assay="RNA")
+printf "\e[?2004l]"
+
+几何平均数
+geometry.mean <- exp(mean(log(x)))
+geo_mean <- function(data) {
+	    log_data <- log(data)
+		    gm <- exp(mean(log_data[is.finite(log_data)]))
+			    return(gm)					
+}
+
+判断2个list相同
+identical(list_1,list_2)
+Map(`%in%`, list1, list2)
+purrr::map2(list1, list2, function(x, y) x %in% y)
+
+齐奥朗认为自杀的念头是自然的、健康的，对存在的强烈渴望才是一种严重的缺陷。他甚至将自杀视为能保证人活下去的唯一想法，因为“自杀让我明白，我可以在我愿意的时候离开这个世界，这令生命变得可以承受，而不是毁掉它。
+
+conda install pkg-config jags #infercnv安装报错
+
+mat <- cellchat@net$weight
+for (i in 1:nrow(mat)) {                        
+	mat2 <- matrix(0, nrow = nrow(mat), ncol = ncol(mat), dimnames = dimnames(mat))
+	mat2[i, ] <- mat[i, ]
+	png(paste0(row.names(mat)[i], ".png", sep=""))
+	netVisual_circle(mat2, vertex.weight = groupSize, weight.scale = T, edge.weight.max = max(mat), title.name = rownames(mat)[i])
+	dev.off()
+}
+
+library(readr)
+write_csv(mtcars, file.path(dir, "mtcars.csv.gz"))
+
+R CMD INSTALL scran_1.24.0.tar.gz
