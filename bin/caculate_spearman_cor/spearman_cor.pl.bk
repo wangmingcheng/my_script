@@ -1,0 +1,41 @@
+use strict;
+use warnings;
+#use Math::Combinatorics;
+
+my @name;
+my @text;
+while(<>){
+	chomp;
+#	s/\;|-/_/g;
+#	print "$-\n";
+	if ($.==1){
+		@name=split/\t/,$_;
+	}else{
+		my @info=split/\t/,$_;
+		if (eof){
+			for (my $i=1; $i<@info; $i++){
+				$text[$i-1].="$info[$i]";
+			}
+		}else{	
+			for (my $i=1; $i<@info; $i++){
+				$text[$i-1].="$info[$i],";
+			}	
+		}		
+	}
+}
+
+#open O,">cor.r";
+for (my $i=0; $i<@text-1; $i++){
+	#print "$name[$i+1] <- c($text[$i])\n";
+	$name[$i+1]=~s/\s+|-|\;|\//_/g;
+	#open O,">cor.r";
+	for (my $j=$i+1; $j<@text; $j++){
+		open O,">cor.r";
+		$name[$j+1]=~s/\s+|-|\;|\//_/g;
+		print O "$name[$i+1] <- c($text[$i])\n$name[$j+1] <- c($text[$j])\ncor($name[$i+1],$name[$j+1],method=\"spearman\")\n";
+#		print "$name[$j+1] <- c($text[$j])\n";
+		my $cor=(split/\s+/,`Rscript cor.r`)[1];
+		print " $name[$i+1]\t$name[$j+1]\t$cor\n";
+	}
+}
+#print "$_\n" for @text;

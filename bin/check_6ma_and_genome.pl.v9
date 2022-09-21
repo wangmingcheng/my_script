@@ -1,0 +1,97 @@
+use warnings;
+use Getopt::Long;
+use Bio::SeqIO;
+
+my $ver="0.777777";
+#wangmc 2019.01.21;
+#检查6mA的位点信息和跟基因组是否一致,只保留与基因组中一致的6ma位点;
+
+=cut
+结果说明;
+chr	      修饰位置	根据修饰位点的contest信息在基因组中提取到的序列 正负链（若为-基因组中的序列反向互补）修饰位点的contest信息
+Contig00143     11966   AACAACCAACGGAGAGGTGTATCGATCGCTAAGGCGCAACA       +       AACAACCAACGGAGAGGTGTATCGATCGCTAAGGCGCAACA
+Contig00143     14927   AGAGGAACTCAGGGTTCATCAGGTGGTATCAGAGCTTTCGT       -       AGAGGAACTCAGGGTTCATCAGGTGGTATCAGAGCTTTCGT
+比较两个序列信心可以判定，修饰位点信息是否与基因组中的一致; 保留的是一致的;
+=cut
+
+my  %opts;
+GetOptions(\%opts,"i=s","g=s","h" );
+
+if(!defined($opts{i}) || !defined($opts{g}) || defined($opts{h}))
+{
+        print <<"       Usage End.";
+        Description:
+                
+                Version: $ver   
+
+        Usage:
+
+                -i           6mA file                                 	      <infile>     must be given
+                -g           genome file                                      <infile>     must be given
+                -h           Help document
+       Usage End.
+
+	exit;
+}
+
+my $m6A_file = $opts{i} ;
+my $genome_file = $opts{g} ;
+
+my %m6A_pos=&read_6mA_file($m6A_file);
+my %fa=&read_fa($genome_file);
+
+open OUT,">$m6A_file\_filter_by_genome";
+for my $chr (keys %m6A_pos){
+	my @array=sort {$a->[0] <=> $b->[0]}  @{$m6A_pos{$chr}};
+	for ($i=0; $i<@array; $i++){
+		my ($pos, $strand, $context, $extend, $line) = @{$array[$i]};
+		my $type = ($strand eq "+")?substr($fa{$chr}, $pos, 2*$extend+1):reverse_complement(substr($fa{$chr}, $pos, 2*$extend+1));
+		print OUT "$line\n" if ($type eq $context);
+=c
+		if ($strand eq "+"){
+		 	print OUT "$chr\t",$pos+$extend+1,"\t$type\t$strand\t$contest\n";
+		}else{
+			print OUT "$chr\t",$pos+$extend+1,"\t",reverse_complement($type),"\t$strand\t$contest\n";
+		}	
+=cut		
+	}
+
+}
+#读取genome文件;
+sub read_fa{
+	my ($file) = $_[0]; #基因组文件
+	my %f;
+	my $fa=Bio::SeqIO->new(-file=>$file,-format=>'fasta');
+        while(my $seq_obj=$fa->next_seq){
+        	my $id=$seq_obj->id;
+                my $seq=$seq_obj->seq;
+		$f{$id}=$seq;
+	}
+	return %f;
+}
+#读取6ma文件
+sub read_6mA_file{
+	my ($in) = $_[0]; #6mA修饰信息文件
+	open IN,"$in";
+	#readline <IN>;
+	my %h;
+	while(<IN>){
+		next if /^Chr/;
+		chomp;
+		my ($chr, $pos, $strand, $info)=(split)[0,3,6,8];
+		$info=~/context=(\S+?);/;
+		my ($context,$extend)=($1, (length($1)-1)/2);	
+		$pos=$pos-1-$extend;
+		push @{$h{$chr}},[$pos, $strand, $context, $extend, $_];
+	}
+	return %h;
+}
+#DNA序列反向互补
+sub reverse_complement{
+	my $dna=shift;
+        # reverse the DNA sequence
+        my $revcomp = reverse($dna);
+        # complement the reversed DNA sequence
+        $revcomp =~ tr/ACGTacgt/TGCAtgca/;
+	return $revcomp;       
+}

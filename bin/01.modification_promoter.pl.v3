@@ -1,0 +1,112 @@
+use warnings;
+use Getopt::Long;
+use List::Util qw/min max/;
+
+#默认保留两个区间的交集占长度较小的比例大于50%
+#20120716
+
+my $ver="0.7777777";
+
+my %opts;
+GetOptions(\%opts,"i=s","r=s","x=s","b=s","h" );
+
+if(!defined($opts{i}) || !defined($opts{r}) || defined($opts{h}))
+{
+	print <<"       Usage End.";
+        Description:
+                
+                Version: $ver   
+
+        Usage:
+
+                -i           histones file                   	          <infile>      must be given
+                -r           gff file                           	  <infile>      must be given
+                -b           extend length                                  [int]       optional [2000] bp
+		-x	     overlap ratio                              decimal(0..1]   default [0.5]
+                -h           Help document
+
+       Usage End.
+
+        exit;
+}
+
+my $histones_file = $opts{i} ;
+my $gff_file = $opts{r} ;
+my $outfile = $opts{o} ;
+my $extend = defined $opts{b} ? $opts{b} : 2000 ;
+my $overlap_ratio =defined  $opts{x} ? $opts{x} : 0.5;
+
+my %gff=&read_gff_file($gff_file, $extend);
+my %histone=&read_histones_file($histones_file);
+#my %hic_interaction=&read_hic_interactions_file();
+
+open OUT,">gene_promoters_with_$histones_file\_modification";
+print OUT "#chr\tgene_id\tpromoters_start\tpromoters_end\thistone_start\thistone_end\tratio\n";
+for my $chr (sort keys %gff){
+	my @promoter_info=sort {$a->[0] <=> $b->[0] || $a ->[1] <=> $b ->[1]} @{$gff{$chr}};
+	my @histone_info=sort {$a->[0] <=> $b->[0] || $a->[1] <=> $b->[1]} @{$histone{$chr}};
+#	my @interactios_info=sort @{$hic_interactions{$chr}};
+	for (my $i=0; $i<@promoter_info; $i++){
+		my ($promoter_start, $promoter_end, $gene_id)=@{$promoter_info[$i]};
+			for (my $j=0; $j<@histone_info; $j++){
+				my ($histone_start, $histone_end)=@{$histone_info[$j]};
+#				max ($promoter_start, $histone_start) < min ($promoter_end, $histone_end);#有交集
+				my $min_len = min($histone_end-$histone_start+1,$extend+1); #promoter和组蛋白长度较小的;
+				my $temp_len=min($histone_end,$promoter_end)-max($promoter_start,$histone_start)+1; #求交集的长度，若无值负
+				my $inter_len = max(0, $temp_len);
+				print OUT "$chr\t$gene_id\t$promoter_start\t$promoter_end\t$histone_start\t$histone_end\t$inter_len\t",$inter_len/$min_len, "\n" if ($inter_len/$min_len >= $overlap_ratio);
+		}
+	}
+	
+}
+
+sub read_gff_file(){
+	my ($gff_file, $extend)=@_;
+	my %gff;
+	open IN, "$gff_file";
+	while(<IN>){
+		next if /ChrC|ChrM/; 
+		chomp;
+		my @info=split;
+		next unless $info[2] eq "gene";
+		my ($chr, $start, $end, $strain)=($info[0], $info[3], $info[4], $info[6]);
+		$_=~/ID=(\S+?);/;
+		my $id=$1;
+		$start=$end+$extend if $strain eq "-";
+		my $promoter_start=$start>=$extend?$start-$extend:0;
+		my $promoter_end=$start;
+		
+		push @{$gff{$chr}}, [$promoter_start, $promoter_end, $id];
+	}
+
+	return %gff;
+}
+
+sub read_histones_file(){
+	my ($file)=$_[0];
+	open IN, "$file" or die "$!";
+	my %histones_info;
+	while(<IN>){
+		next if /#|^\s+/;
+		chomp;
+		my ($chr, $start, $end)=(split/\t/, $_)[0,1,2];
+		$chr="Chr".$chr;
+		my $peaks_len=abs($end-$start+1);
+		push @{$histones_info{$chr}},[$start, $end];
+
+	}
+	return %histones_info;
+}
+=c
+sub read_Hic_interactions_file(){
+	my $file="thalina_Capture_HiC_interactions.txt";
+	open IN, "$file";
+	my %hic_ir;
+	while(<IN>){
+		next if /^Chr/;
+		chomp;
+		my ($ir_chr1, $ir_start1, $ir_end1, $ir_chr2, $ir_start2, $ir_end2, $ir_score)=split;
+		push @{$hic_ir{$ir_chr1}},[($ir_start1, $ir_end1), ($ir_chr2, $ir_start2, $ir_end2)];
+	}
+	return %hic_ir;
+}

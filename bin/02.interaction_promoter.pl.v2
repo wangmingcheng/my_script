@@ -1,0 +1,87 @@
+use warnings;
+use Getopt::Long;
+use List::Util qw/min max/;
+
+
+my $ver="0.7";
+
+my %opts;
+GetOptions(\%opts,"i=s","r=s","o=s","b=s","h" );
+
+if(!defined($opts{i}) || !defined($opts{r}) || defined($opts{h}))
+{
+        print <<"       Usage End.";
+        Description:
+                
+                Version: $ver   
+
+        Usage:
+
+                -i           hic file                   	           <infile>     must be given
+                -r           promoter file                           	   <infile>     must be given
+                -h           Help document
+
+       Usage End.
+
+        exit;
+}
+
+my $hic_file = $opts{i} ;
+my $promoter_file = $opts{r} ;
+#my $outfile = $opts{o} ;
+#my $extend = defined $opts{b} ? $opts{b} : 2000 ;
+
+#my $gff_file=$ARGV[0];
+my %hic=&read_Hic_interactions_file($hic_file);
+my %promoter=&read_histone_promoter_file($promoter_file);
+#my %hic_interaction=&read_hic_interactions_file();
+
+#my $promoter_file=~s/gene_promoters_with_(\S+?)_peaks.xls_modification/$1/;
+#my $name=$1;
+
+open OUT,">$promoter_file\_interactions";
+#print OUT "#chr\tgene_id\tpromoters_start\tpromoters_end\thistone_start\thistone_end\tratio\n";
+for my $chr (sort keys %hic){
+	my @interaction_info=sort {$a->[0] <=> $b->[0] || $a->[1] <=> $b->[1]} @{$hic{$chr}};
+	my @promoter_info=sort {$a->[0] <=> $b->[0] || $a ->[1] <=> $b ->[1]} @{$promoter{$chr}};
+	for (my $i=0; $i<@interaction_info; $i++){
+		my ($inter_start, $inter_end, $line)=@{$interaction_info[$i]};
+	#	my $hic_len=$inter_end-$inter_start+1;
+		for (my $j=0; $j<@promoter_info; $j++){
+			my $hic_len=$inter_end-$inter_start+1;
+			my ($promoter_start, $promoter_end, $gene)=@{$promoter_info[$j]};
+			my $temp_len = min($inter_end, $promoter_end) - max($inter_start, $promoter_start) + 1;
+			my $inter_len = max(0, $temp_len);
+			print OUT "$gene\t$line\n" if ($inter_len/$hic_len >= 0.5);
+		}
+	}
+
+}
+
+sub read_Hic_interactions_file(){
+	my ($file)=$_[0];
+#	my $file="A.thalina_Capture_HiC_interactions.txt";
+	open IN, "$file";
+	my %hic_ir;
+	while(<IN>){
+		next if /^Chr/;
+		chomp;
+		my ($ir_chr1, $ir_start1, $ir_end1, $ir_chr2, $ir_start2, $ir_end2, $ir_score)=split;
+		$ir_chr1="Chr".$ir_chr1;
+		push @{$hic_ir{$ir_chr1}},[$ir_start1, $ir_end1, $_];
+	}
+	return %hic_ir;
+}
+
+sub read_histone_promoter_file(){
+	my ($file)=$_[0];
+#	my $file="genepromoters_with_H3K14ac_peaks.xls_modification_0.5";
+	open IN,"$file";
+	my %h;
+	while(<IN>){
+		next if /#/;
+		my ($chr, $gene, $promoter_start, $promoter_end)=(split)[0..3];
+		push @{$h{$chr}}, [$promoter_start, $promoter_end, $gene];
+	}
+	return %h;
+}
