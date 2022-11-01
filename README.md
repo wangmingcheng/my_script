@@ -1,4 +1,5 @@
-# my_script
+# 提取、归纳、总结、输出、布道
+# 不断重复简、繁、简的过程
 
 ## R语言教程
 [R Graphics Cookbook](https://r-graphics.org/) R数据可视化手册，学会大部分基础的图形绘制<br>
