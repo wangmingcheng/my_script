@@ -15,3 +15,7 @@ furrr https://github.com/DavisVaughan/furrr<br>
 R Interface to Python: https://rstudio.github.io/reticulate<br>
 
 ## 尝试逐步构建一个R包
+
+## 问题
+1. R数据框或向量取交集，并集，补集，差集？
+
