@@ -22,6 +22,8 @@ https://www.bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.htm
 https://bioconductor.org/packages/release/bioc/html/STRINGdb.html<br>
 ### ggalluvial：桑基图
 https://corybrunson.github.io/ggalluvial<br>
+### GSVA: 基因集变异分析,和GSEA的区别
+https://www.bioconductor.org/packages/release/bioc/vignettes/GSVA/inst/doc/GSVA.html<br>
 
 ## ![1F249A05](https://user-images.githubusercontent.com/17904976/202067812-a06f7180-4a7f-4f1e-8eee-ac7560e93764.png) 博客
 谢益辉：https://blorg.cn/yihui.org/<br>
