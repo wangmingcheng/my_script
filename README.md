@@ -18,6 +18,9 @@ survival：https://github.com/therneau/survival    生存分析包，TCGA数据�
 ConsensusClusterPlus：https://www.bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html  无监督一致性聚类<br>
 STRINGdb：https://bioconductor.org/packages/release/bioc/html/STRINGdb.html
 
+##![1F249A05](https://user-images.githubusercontent.com/17904976/202067812-a06f7180-4a7f-4f1e-8eee-ac7560e93764.png) 博客
+谢益辉：https://blorg.cn/yihui.org/
+
 ## 尝试逐步构建一个R包
 1.为啥要做这个包，这个R包要解决什么问题？
 
