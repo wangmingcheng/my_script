@@ -11,11 +11,12 @@
 开源的R语言学习书籍： https://bookdown.org/<br>
 [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/)<br>
 
-## 值得学习的包
+## 总结工作中用到的包
 furrr https://github.com/DavisVaughan/furrr<br>
 R Interface to Python: https://rstudio.github.io/reticulate<br>
 survival：https://github.com/therneau/survival    生存分析包，TCGA数据挖掘中常用<br>
 ConsensusClusterPlus：https://www.bioconductor.org/packages/release/bioc/html/ConsensusClusterPlus.html  无监督一致性聚类<br>
+STRINGdb：https://bioconductor.org/packages/release/bioc/html/STRINGdb.html
 
 ## 尝试逐步构建一个R包
 1.为啥要做这个包，这个R包要解决什么问题？
