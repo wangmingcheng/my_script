@@ -13,6 +13,9 @@
 ## 搜索R包
 https://www.rdocumentation.org/<br>
 
+## awesome-R
+https://github.com/qinwf/awesome-R
+
 ## 总结工作中用到的包
 furrr https://github.com/DavisVaughan/furrr<br>
 R Interface to Python: https://rstudio.github.io/reticulate<br>
