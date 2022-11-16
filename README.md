@@ -30,4 +30,5 @@ STRINGdb：https://bioconductor.org/packages/release/bioc/html/STRINGdb.html
 3. 数据框提取奇数行、偶数行、整倍数行、奇数列、偶数列、整倍数列？
 4. R语言中批量提取当前目录中指定类型的文件，不如以gz结尾？
 5. R语言list如何追加元素？
+6. R语言如何删除数据集中指定的行或列？
 
