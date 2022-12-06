@@ -34,7 +34,10 @@ https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/access
 ### cogena： 共表达基因富集分析
 http://bioconductor.org/packages/release/bioc/html/cogena.html
 
-## ![1F249A05](https://user-images.githubusercontent.com/17904976/202067812-a06f7180-4a7f-4f1e-8eee-ac7560e93764.png) 博客
+### r-yaml: 处理yaml配置文件，写流程可采用
+https://github.com/vubiostat/r-yaml
+
+## ![1F249A05](http://user-images.githubusercontent.com/17904976/202067812-a06f7180-4a7f-4f1e-8eee-ac7560e93764.png) 博客
 谢益辉：https://blorg.cn/yihui.org/<br>
 
 ## 尝试逐步构建一个R包
