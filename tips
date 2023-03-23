@@ -64,3 +64,21 @@ library(readr)
 write_csv(mtcars, file.path(dir, "mtcars.csv.gz"))
 
 R CMD INSTALL scran_1.24.0.tar.gz
+
+## R删除文件或目录
+https://r-lang.com/unlink-in-r-how-to-delete-file-or-directory-in-r/
+### 删除文件
+file <- "data.R"
+
+if (file.exists(file)) {
+ unlink(file)
+ cat("The file is deleted")
+}
+### 删除目录
+main_dir <- "ampol"
+
+if (file.exists(main_dir)) {
+ unlink(main_dir, recursive = TRUE)
+ cat("The directory has been deleted")
+}
+
